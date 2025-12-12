@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urticaria Management Challenge | Clinical Reasoning Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+        }
+        
+        .app-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        .game-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .header-left .subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 10px 16px;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .stat-box .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .stat-box .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+        
+        /* Level Progress */
+        .level-section {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .level-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .level-icon {
+            font-size: 1.5rem;
+        }
+        
+        .level-name {
+            font-weight: 700;
+            color: #ffd700;
+        }
+        
+        .xp-text {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Mode Selection */
+        .mode-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-card {
+            background: rgba(255,255,255,0.08);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .mode-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-4px);
+        }
+        
+        .mode-card.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .mode-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        
+        .mode-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .mode-card p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+        
+        /* Challenge Cards */
+        .challenges-grid {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .challenge-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .challenge-card:hover:not(.locked) {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(8px);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        
+        .challenge-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .challenge-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .challenge-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .challenge-details h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .challenge-details p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .challenge-meta {
+            text-align: right;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        
+        .difficulty-beginner { background: #22c55e; }
+        .difficulty-intermediate { background: #f59e0b; }
+        .difficulty-advanced { background: #ef4444; }
+        .difficulty-expert { background: #8b5cf6; }
+        
+        .stars {
+            color: #ffd700;
+            font-size: 1rem;
+        }
+        
+        /* Quiz Section */
+        .quiz-container {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .timer.warning { color: #f59e0b; }
+        .timer.danger { color: #ef4444; animation: pulse 1s infinite; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        
+        .streak-display {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        
+        .question-progress {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .clinical-vignette {
+            background: rgba(102, 126, 234, 0.15);
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .option-btn {
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: inherit;
+            font-family: inherit;
+        }
+        
+        .option-btn:hover:not(.disabled) {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        
+        .option-btn.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .option-btn.correct {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.2);
+        }
+        
+        .option-btn.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+        }
+        
+        .option-btn.disabled {
+            cursor: not-allowed;
+        }
+        
+        /* Feedback */
+        .feedback {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .feedback.correct {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .feedback-header {
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .points-earned {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .point-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .point-item.positive { color: #22c55e; }
+        .point-item.negative { color: #ef4444; }
+        .point-item.bonus { color: #ffd700; }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        
+        /* Results Screen */
+        .results-container {
+            text-align: center;
+        }
+        
+        .results-header {
+            margin-bottom: 24px;
+        }
+        
+        .results-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .results-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .results-subtitle {
+            opacity: 0.7;
+        }
+        
+        .results-score {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 24px 0;
+        }
+        
+        .score-big {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+        
+        .score-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .result-stat {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .result-stat .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .result-stat .label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+        
+        .stars-earned {
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+        
+        .star { color: #333; }
+        .star.filled { color: #ffd700; }
+        
+        /* XP Gain Animation */
+        .xp-gain {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #1a1a2e;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        
+        /* Badges Section */
+        .badges-earned {
+            margin: 24px 0;
+        }
+        
+        .badges-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .badges-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .badge.new {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 170, 0, 0.2));
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            animation: badgePop 0.5s ease;
+        }
+        
+        @keyframes badgePop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .badge-icon {
+            font-size: 1.5rem;
+        }
+        
+        .badge-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        /* Badges Gallery */
+        .badges-gallery {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        
+        .gallery-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .badges-collection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        
+        .badge-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .badge-item.unlocked {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .badge-item.locked {
+            opacity: 0.4;
+        }
+        
+        .badge-item .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .badge-item .name {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-item .desc {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .game-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .mode-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useCallback } = React;
+        
+        // ==================== GAME DATA ====================
+        
+        const LEVELS = [
+            { level: 1, name: 'Novice', icon: '📚', xpRequired: 0 },
+            { level: 2, name: 'Intern', icon: '🩺', xpRequired: 500 },
+            { level: 3, name: 'Resident', icon: '👨‍⚕️', xpRequired: 1500 },
+            { level: 4, name: 'Fellow', icon: '🎓', xpRequired: 3000 },
+            { level: 5, name: 'Attending', icon: '⭐', xpRequired: 5000 },
+            { level: 6, name: 'Expert', icon: '🏆', xpRequired: 8000 },
+            { level: 7, name: 'Master Clinician', icon: '👑', xpRequired: 12000 }
+        ];
+        
+        const BADGES = [
+            { id: 'first_blood', name: 'First Steps', icon: '🎯', desc: 'Complete your first challenge', condition: (stats) => stats.challengesCompleted >= 1 },
+            { id: 'perfect_round', name: 'Perfect Round', icon: '💯', desc: 'Get 100% on any challenge', condition: (stats) => stats.perfectScores >= 1 },
+            { id: 'speed_demon', name: 'Speed Demon', icon: '⚡', desc: 'Complete a challenge in under 2 minutes', condition: (stats) => stats.fastCompletions >= 1 },
+            { id: 'streak_master', name: 'Streak Master', icon: '🔥', desc: 'Get a 5-question streak', condition: (stats) => stats.maxStreak >= 5 },
+            { id: 'biologic_expert', name: 'Biologic Expert', icon: '💉', desc: 'Master the biologics challenge', condition: (stats) => stats.categoryMastery?.biologics },
+            { id: 'evidence_guru', name: 'Evidence Guru', icon: '📊', desc: 'Master the evidence interpretation challenge', condition: (stats) => stats.categoryMastery?.evidence },
+            { id: 'treatment_pro', name: 'Treatment Pro', icon: '💊', desc: 'Master the treatment algorithm challenge', condition: (stats) => stats.categoryMastery?.treatment },
+            { id: 'persistent', name: 'Persistent', icon: '🎖️', desc: 'Complete 10 challenges', condition: (stats) => stats.challengesCompleted >= 10 },
+            { id: 'scholar', name: 'Scholar', icon: '🎓', desc: 'Reach 2000 XP', condition: (stats) => stats.totalXp >= 2000 },
+            { id: 'grandmaster', name: 'Grandmaster', icon: '👑', desc: 'Earn all other badges', condition: (stats, badges) => badges.filter(b => b.id !== 'grandmaster').every(b => stats.badges?.includes(b.id)) }
+        ];
+        
+        const CHALLENGES = [
+            {
+                id: 'biologics_basics',
+                title: 'Biologics Basics',
+                description: 'Test your knowledge of biologic therapies for chronic urticaria',
+                icon: '💉',
+                iconBg: 'linear-gradient(135deg, #667eea, #764ba2)',
+                difficulty: 'beginner',
+                category: 'biologics',
+                xpReward: 100,
+                timeLimit: 180,
+                questions: [
+                    {
+                        question: 'Which two treatments have HIGH-certainty evidence for efficacy across urticaria activity, angioedema, AND quality of life?',
+                        options: [
+                            'Omalizumab and dupilumab',
+                            'Omalizumab and remibrutinib',
+                            'Dupilumab and cyclosporine',
+                            'Remibrutinib and cyclosporine'
+                        ],
+                        correct: 1,
+                        explanation: 'Per the Chu AWL 2025 NMA, only omalizumab 300mg Q4W and remibrutinib have HIGH-certainty evidence for ALL THREE outcomes. Dupilumab has moderate certainty for urticaria activity but NO angioedema data. Cyclosporine has only LOW-certainty evidence.'
+                    },
+                    {
+                        question: 'What is the critical evidence gap for dupilumab in chronic spontaneous urticaria?',
+                        options: [
+                            'No RCTs have been conducted',
+                            'No dupilumab trials reported angioedema outcomes',
+                            'Dupilumab has not been compared to placebo',
+                            'Long-term safety data is missing'
+                        ],
+                        correct: 1,
+                        explanation: 'The CUPID trials showed dupilumab improves urticaria activity, but NO trials reported angioedema outcomes. This is a critical gap for patients with prominent angioedema.'
+                    },
+                    {
+                        question: 'Which biologic was discontinued from development after Phase 3 trials showed no superiority over omalizumab?',
+                        options: [
+                            'Benralizumab',
+                            'Tezepelumab',
+                            'Ligelizumab',
+                            'Quilizumab'
+                        ],
+                        correct: 2,
+                        explanation: 'Ligelizumab development was discontinued after the PEARL-1 and PEARL-2 trials showed no superiority over omalizumab.'
+                    },
+                    {
+                        question: 'Why did benralizumab (anti-IL-5) fail for chronic spontaneous urticaria in the ARROYO trial?',
+                        options: [
+                            'The dose was too low',
+                            'Eosinophils are not central drivers of urticaria',
+                            'The trial duration was too short',
+                            'Patients were already on omalizumab'
+                        ],
+                        correct: 1,
+                        explanation: 'Benralizumab targets eosinophils, which are central to eosinophilic asthma but NOT central drivers of urticaria. Urticaria is driven by mast cell degranulation via the IgE-FcεRI axis.'
+                    },
+                    {
+                        question: 'Standard-dose omalizumab (300mg Q4W) improves urticaria activity by how much on UAS7?',
+                        options: [
+                            'MD -3.37 (small effect)',
+                            'MD -5.37 (moderate effect)',
+                            'MD -8.37 (large effect)',
+                            'MD -12.37 (very large effect)'
+                        ],
+                        correct: 2,
+                        explanation: 'Omalizumab 300mg Q4W improves urticaria activity by MD -8.37 on UAS7 with HIGH certainty, making it among the most effective treatments.'
+                    }
+                ]
+            },
+            {
+                id: 'nnt_nnh',
+                title: 'NNT/NNH Challenge',
+                description: 'Master the numbers behind treatment decisions',
+                icon: '🔢',
+                iconBg: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                difficulty: 'intermediate',
+                category: 'evidence',
+                xpReward: 150,
+                timeLimit: 240,
+                questions: [
+                    {
+                        question: 'What is the NNT for systemic corticosteroids in antihistamine-REFRACTORY acute urticaria?',
+                        options: ['3', '7', '15', '45'],
+                        correct: 1,
+                        explanation: 'The NNT is 7 for antihistamine-refractory patients, meaning treating 7 patients results in 1 additional responder. This is meaningful benefit.'
+                    },
+                    {
+                        question: 'What is the NNT for systemic corticosteroids in antihistamine-RESPONSIVE urticaria?',
+                        options: ['7', '15', '30', '45'],
+                        correct: 3,
+                        explanation: 'The NNT is 45 for antihistamine-responsive patients, meaning minimal additional benefit. Steroids should be avoided in these patients.'
+                    },
+                    {
+                        question: 'What is the NNH for neuropsychiatric adverse events with LTRAs in urticaria patients?',
+                        options: ['9', '45', '77', '161'],
+                        correct: 3,
+                        explanation: 'The NNH for neuropsychiatric AEs is 161, meaning approximately 1 in 161 patients may experience mood changes or sleep disturbances. This risk must be communicated per FDA boxed warning.'
+                    },
+                    {
+                        question: 'What is the minimally important difference (MID) for UAS7?',
+                        options: ['5 points', '10 points', '15 points', '20 points'],
+                        correct: 1,
+                        explanation: 'The MID for UAS7 is 10 points. LTRAs only achieve MD -5.04, which is BELOW this threshold, representing a "small, potentially patient-unimportant" benefit.'
+                    },
+                    {
+                        question: 'What is the risk difference for any adverse event with cyclosporine vs placebo?',
+                        options: ['+5% more', '+12% more', '+21% more', '+35% more'],
+                        correct: 2,
+                        explanation: 'Cyclosporine may increase adverse events by 21% (LOW certainty). This is why it is classified as "may be among the most harmful" despite potentially being most effective.'
+                    }
+                ]
+            },
+            {
+                id: 'treatment_algorithm',
+                title: 'Treatment Algorithm',
+                description: 'Navigate the stepwise approach to urticaria management',
+                icon: '🔄',
+                iconBg: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                difficulty: 'intermediate',
+                category: 'treatment',
+                xpReward: 150,
+                timeLimit: 240,
+                questions: [
+                    {
+                        question: 'A patient with CSU and prominent angioedema needs to start a biologic. Which should you AVOID?',
+                        options: [
+                            'Omalizumab',
+                            'Remibrutinib',
+                            'Dupilumab',
+                            'Any of these would be appropriate'
+                        ],
+                        correct: 2,
+                        explanation: 'Avoid dupilumab for patients with prominent angioedema because NO dupilumab trials reported angioedema outcomes. Both omalizumab and remibrutinib have HIGH-certainty angioedema data.'
+                    },
+                    {
+                        question: 'What comparison has NEVER been studied in RCTs for LTRAs?',
+                        options: [
+                            'LTRA + standard-dose AH vs standard-dose AH alone',
+                            'LTRA + standard-dose AH vs 4× updosed AH alone',
+                            'Different LTRAs vs each other',
+                            'LTRA monotherapy vs AH monotherapy'
+                        ],
+                        correct: 1,
+                        explanation: 'No RCT has compared LTRA + standard-dose antihistamine vs 4× updosed antihistamine alone — this is the clinically relevant comparison per guidelines.'
+                    },
+                    {
+                        question: 'When should you consider topical corticosteroids for urticaria?',
+                        options: [
+                            'As first-line for all urticaria',
+                            'For widespread, migratory hives',
+                            'For highly localized urticaria or chronic inducible urticaria',
+                            'Never — they are ineffective'
+                        ],
+                        correct: 2,
+                        explanation: 'TCS may be appropriate for highly localized urticaria or chronic inducible urticaria (dermographism, pressure urticaria). They are impractical for widespread, migratory hives.'
+                    },
+                    {
+                        question: 'A patient on omalizumab 300mg Q4W for 6 months has partial response. What percentage may respond to updosing?',
+                        options: ['25%', '45%', '69%', '85%'],
+                        correct: 2,
+                        explanation: 'Case series suggest approximately 69% of standard-dose non-responders may respond to higher doses (300mg Q2W or 450-600mg Q4W), though no RCTs exist for this comparison.'
+                    },
+                    {
+                        question: 'For a patient with CSU + atopic dermatitis, which biologic offers "one drug, two diseases"?',
+                        options: [
+                            'Omalizumab',
+                            'Dupilumab',
+                            'Remibrutinib',
+                            'Cyclosporine'
+                        ],
+                        correct: 1,
+                        explanation: 'Dupilumab is FDA-approved for both CSU and moderate-to-severe atopic dermatitis, offering the advantage of treating both conditions with a single agent.'
+                    }
+                ]
+            },
+            {
+                id: 'failed_drugs',
+                title: 'Failed Biologics',
+                description: 'Learn from drug development failures',
+                icon: '❌',
+                iconBg: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                difficulty: 'advanced',
+                category: 'biologics',
+                xpReward: 200,
+                timeLimit: 180,
+                questions: [
+                    {
+                        question: 'Why did tezepelumab (anti-TSLP) fail for chronic urticaria despite working for asthma?',
+                        options: [
+                            'The dose was insufficient',
+                            'Type 2 skin inflammation is TSLP-independent',
+                            'Urticaria patients lack TSLP receptors',
+                            'The trials were too short'
+                        ],
+                        correct: 1,
+                        explanation: 'Type 2 skin inflammation is TSLP-independent, unlike airway inflammation where TSLP is a key initiator. This reflects fundamental differences between skin and airway pathophysiology.'
+                    },
+                    {
+                        question: 'Which trial demonstrated that benralizumab is not effective for CSU?',
+                        options: ['ARROYO', 'PEARL', 'CUPID', 'REMIX'],
+                        correct: 0,
+                        explanation: 'The ARROYO trial showed benralizumab does not elicit therapeutic effect in CSU patients (MD -2.84, not different from placebo).'
+                    },
+                    {
+                        question: 'What was the outcome of the canakinumab (anti-IL-1β) URTICANA trial?',
+                        options: [
+                            'Superior to omalizumab',
+                            'Equivalent to omalizumab',
+                            'No effect (MD 0.02)',
+                            'Worse than placebo'
+                        ],
+                        correct: 2,
+                        explanation: 'The URTICANA trial showed canakinumab has essentially no effect on urticaria activity (MD 0.02), indicating IL-1β is not a key driver of CSU.'
+                    },
+                    {
+                        question: 'Quilizumab (anti-IgE M1 prime) failed in which trial?',
+                        options: ['ARROYO', 'QUAIL', 'INCEPTION', 'PEARL'],
+                        correct: 1,
+                        explanation: 'Quilizumab failed in the QUAIL trial. Unlike omalizumab which targets all IgE, quilizumab only targeted membrane IgE on B cells, which proved insufficient.'
+                    },
+                    {
+                        question: 'What do the failures of benralizumab, tezepelumab, and canakinumab teach us about urticaria?',
+                        options: [
+                            'Urticaria is driven by T cells',
+                            'Urticaria is driven by the IgE-mast cell axis, not eosinophils, TSLP, or IL-1',
+                            'All biologics fail for urticaria',
+                            'Urticaria requires combination therapy'
+                        ],
+                        correct: 1,
+                        explanation: 'These failures confirm urticaria is driven by the IgE-mast cell axis (hence omalizumab, remibrutinib success) and IL-4/IL-13 signaling (hence dupilumab success), NOT by eosinophils, TSLP, or IL-1.'
+                    }
+                ]
+            },
+            {
+                id: 'clinical_scenarios',
+                title: 'Clinical Scenarios',
+                description: 'Apply evidence to real patient decisions',
+                icon: '🏥',
+                iconBg: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                difficulty: 'expert',
+                category: 'treatment',
+                xpReward: 250,
+                timeLimit: 300,
+                questions: [
+                    {
+                        vignette: 'A 35-year-old woman with CSU controlled on cetirizine 40mg daily (4× dose) develops a severe flare after a viral illness. Her UAS7 increased from 8 to 36. She asks for prednisone.',
+                        question: 'What is the most appropriate intervention?',
+                        options: [
+                            'Add montelukast',
+                            'Start omalizumab',
+                            'Short-course prednisone (<1 week)',
+                            'Start cyclosporine'
+                        ],
+                        correct: 2,
+                        explanation: 'This patient is currently antihistamine-REFRACTORY (severe flare despite 4× AH). For acute flares in refractory patients, short-course steroids have NNT 7 with moderate certainty. Biologics take weeks to work.'
+                    },
+                    {
+                        vignette: 'A 29-year-old woman with mild CSU (UAS7 14) controlled on cetirizine 20mg BID asks for montelukast because she "read online it helps hives." She has a history of depression.',
+                        question: 'What is the most evidence-based response?',
+                        options: [
+                            'Prescribe montelukast without discussion',
+                            'Explain LTRAs have modest benefit below MID threshold and require FDA warning counseling given her psychiatric history',
+                            'Refuse to prescribe any add-on therapy',
+                            'Switch to omalizumab immediately'
+                        ],
+                        correct: 1,
+                        explanation: 'LTRAs provide only MD -5.04 (below MID of 10). For mild, controlled disease, benefit is marginal. Her depression history makes the FDA boxed warning particularly relevant. Shared decision-making with full disclosure is essential.'
+                    },
+                    {
+                        vignette: 'A 52-year-old woman with severe refractory CSU has failed omalizumab 300mg Q4W × 6 months. She cannot afford to continue and asks about alternatives.',
+                        question: 'What should you recommend?',
+                        options: [
+                            'Stop all treatment',
+                            'Discuss omalizumab updosing AND cyclosporine (with its risk-benefit profile)',
+                            'Start methotrexate as first alternative',
+                            'Switch to dupilumab without discussion'
+                        ],
+                        correct: 1,
+                        explanation: '~69% may respond to omalizumab updosing. If unavailable/unaffordable, cyclosporine may be most effective but may be most harmful (+21% more AEs). Informed discussion of both options is essential.'
+                    },
+                    {
+                        vignette: 'A 45-year-old woman with dermographism (chronic inducible urticaria) develops wheals along her bra line daily. Antihistamines help 50%. She asks about topical steroids.',
+                        question: 'What is the appropriate response?',
+                        options: [
+                            'TCS are never appropriate for urticaria',
+                            'TCS may be appropriate for this highly localized, predictable urticaria',
+                            'Start omalizumab instead',
+                            'Increase antihistamines to 8× dose'
+                        ],
+                        correct: 1,
+                        explanation: 'TCS may be appropriate for highly localized, predictable chronic inducible urticaria. They may reduce wheal size ~50% (low certainty) with HIGH-certainty safety. This is "absence of evidence, not evidence of absence."'
+                    },
+                    {
+                        vignette: 'A patient on omalizumab for 2 years asks about switching to remibrutinib because "it\'s newer and might be better."',
+                        question: 'What counseling is most appropriate?',
+                        options: [
+                            'Switch immediately — newer is better',
+                            'Remibrutinib has similar efficacy but less long-term safety data; since omalizumab is working, no clear benefit to switching',
+                            'Remibrutinib is only for CIndU, not CSU',
+                            'Add remibrutinib to omalizumab'
+                        ],
+                        correct: 1,
+                        explanation: 'Omalizumab and remibrutinib have similar HIGH-certainty efficacy. The key difference is omalizumab has extensive long-term safety data while remibrutinib has limited data (LOW certainty for safety). If omalizumab is working, there\'s no evidence-based reason to switch.'
+                    }
+                ]
+            }
+        ];
+        
+        // ==================== MAIN APP ====================
+        
+        function App() {
+            const [view, setView] = useState('menu'); // menu, quiz, results, badges
+            const [mode, setMode] = useState('game'); // practice, game
+            const [currentChallenge, setCurrentChallenge] = useState(null);
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [selectedAnswer, setSelectedAnswer] = useState(null);
+            const [showFeedback, setShowFeedback] = useState(false);
+            const [timeRemaining, setTimeRemaining] = useState(0);
+            const [score, setScore] = useState(0);
+            const [streak, setStreak] = useState(0);
+            const [maxStreak, setMaxStreak] = useState(0);
+            const [questionResults, setQuestionResults] = useState([]);
+            const [stats, setStats] = useState(() => {
+                const saved = localStorage.getItem('urticariaGameStats');
+                return saved ? JSON.parse(saved) : {
+                    totalXp: 0,
+                    totalPoints: 0,
+                    challengesCompleted: 0,
+                    perfectScores: 0,
+                    fastCompletions: 0,
+                    maxStreak: 0,
+                    badges: [],
+                    challengeScores: {},
+                    categoryMastery: {}
+                };
+            });
+            const [newBadges, setNewBadges] = useState([]);
+            
+            // Save stats to localStorage
+            useEffect(() => {
+                localStorage.setItem('urticariaGameStats', JSON.stringify(stats));
+            }, [stats]);
+            
+            // Timer effect
+            useEffect(() => {
+                if (view !== 'quiz' || mode === 'practice' || showFeedback) return;
+                
+                const timer = setInterval(() => {
+                    setTimeRemaining(prev => {
+                        if (prev <= 1) {
+                            handleTimeUp();
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                
+                return () => clearInterval(timer);
+            }, [view, mode, showFeedback, currentQuestion]);
+            
+            const handleTimeUp = () => {
+                if (selectedAnswer === null) {
+                    handleAnswer(-1); // Force wrong answer
+                }
+            };
+            
+            const getLevelInfo = (xp) => {
+                let current = LEVELS[0];
+                let next = LEVELS[1];
+                
+                for (let i = LEVELS.length - 1; i >= 0; i--) {
+                    if (xp >= LEVELS[i].xpRequired) {
+                        current = LEVELS[i];
+                        next = LEVELS[i + 1] || null;
+                        break;
+                    }
+                }
+                
+                const progress = next 
+                    ? ((xp - current.xpRequired) / (next.xpRequired - current.xpRequired)) * 100
+                    : 100;
+                
+                return { current, next, progress };
+            };
+            
+            const startChallenge = (challenge) => {
+                setCurrentChallenge(challenge);
+                setCurrentQuestion(0);
+                setSelectedAnswer(null);
+                setShowFeedback(false);
+                setTimeRemaining(challenge.timeLimit);
+                setScore(0);
+                setStreak(0);
+                setMaxStreak(0);
+                setQuestionResults([]);
+                setView('quiz');
+            };
+            
+            const handleAnswer = (index) => {
+                if (showFeedback) return;
+                
+                setSelectedAnswer(index);
+                setShowFeedback(true);
+                
+                const question = currentChallenge.questions[currentQuestion];
+                const isCorrect = index === question.correct;
+                
+                let pointsEarned = 0;
+                let newStreak = streak;
+                
+                if (isCorrect) {
+                    pointsEarned = 100;
+                    newStreak = streak + 1;
+                    
+                    // Streak bonus
+                    if (newStreak >= 3) pointsEarned += 25 * (newStreak - 2);
+                    
+                    // Time bonus (only in game mode)
+                    if (mode === 'game') {
+                        const timeBonus = Math.floor(timeRemaining / 10) * 5;
+                        pointsEarned += timeBonus;
+                    }
+                } else {
+                    pointsEarned = 0;
+                    newStreak = 0;
+                }
+                
+                setStreak(newStreak);
+                if (newStreak > maxStreak) setMaxStreak(newStreak);
+                setScore(prev => prev + pointsEarned);
+                setQuestionResults(prev => [...prev, { 
+                    correct: isCorrect, 
+                    points: pointsEarned,
+                    timeRemaining 
+                }]);
+            };
+            
+            const nextQuestion = () => {
+                if (currentQuestion < currentChallenge.questions.length - 1) {
+                    setCurrentQuestion(prev => prev + 1);
+                    setSelectedAnswer(null);
+                    setShowFeedback(false);
+                    if (mode === 'game') {
+                        setTimeRemaining(currentChallenge.timeLimit / currentChallenge.questions.length);
+                    }
+                } else {
+                    finishChallenge();
+                }
+            };
+            
+            const finishChallenge = () => {
+                const correctCount = questionResults.filter(r => r.correct).length + 
+                    (selectedAnswer === currentChallenge.questions[currentQuestion].correct ? 1 : 0);
+                const totalQuestions = currentChallenge.questions.length;
+                const accuracy = correctCount / totalQuestions;
+                const isPerfect = accuracy === 1;
+                const totalTime = currentChallenge.timeLimit - timeRemaining;
+                const isFast = totalTime < 120;
+                
+                // Calculate XP
+                let xpEarned = Math.floor(currentChallenge.xpReward * accuracy);
+                if (isPerfect) xpEarned += 50;
+                if (isFast && mode === 'game') xpEarned += 25;
+                
+                // Update stats
+                const newStats = {
+                    ...stats,
+                    totalXp: stats.totalXp + xpEarned,
+                    totalPoints: stats.totalPoints + score,
+                    challengesCompleted: stats.challengesCompleted + 1,
+                    perfectScores: stats.perfectScores + (isPerfect ? 1 : 0),
+                    fastCompletions: stats.fastCompletions + (isFast ? 1 : 0),
+                    maxStreak: Math.max(stats.maxStreak, maxStreak),
+                    challengeScores: {
+                        ...stats.challengeScores,
+                        [currentChallenge.id]: Math.max(
+                            stats.challengeScores[currentChallenge.id] || 0,
+                            score
+                        )
+                    }
+                };
+                
+                // Check for category mastery (90%+ on category)
+                if (accuracy >= 0.9) {
+                    newStats.categoryMastery = {
+                        ...newStats.categoryMastery,
+                        [currentChallenge.category]: true
+                    };
+                }
+                
+                // Check for new badges
+                const earnedBadges = [];
+                BADGES.forEach(badge => {
+                    if (!stats.badges.includes(badge.id) && badge.condition(newStats, BADGES)) {
+                        earnedBadges.push(badge);
+                        newStats.badges = [...(newStats.badges || []), badge.id];
+                    }
+                });
+                
+                setNewBadges(earnedBadges);
+                setStats(newStats);
+                setView('results');
+            };
+            
+            const getStars = (accuracy) => {
+                if (accuracy >= 0.9) return 3;
+                if (accuracy >= 0.7) return 2;
+                if (accuracy >= 0.5) return 1;
+                return 0;
+            };
+            
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+            
+            const levelInfo = getLevelInfo(stats.totalXp);
+            
+            // ==================== RENDER ====================
+            
+            if (view === 'badges') {
+                return (
+                    <div className="app-container">
+                        <div className="badges-gallery">
+                            <h2 className="gallery-title">🏆 Badge Collection</h2>
+                            <div className="badges-collection">
+                                {BADGES.map(badge => (
+                                    <div 
+                                        key={badge.id} 
+                                        className={`badge-item ${stats.badges.includes(badge.id) ? 'unlocked' : 'locked'}`}
+                                    >
+                                        <div className="icon">{badge.icon}</div>
+                                        <div className="name">{badge.name}</div>
+                                        <div className="desc">{badge.desc}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="button-row" style={{justifyContent: 'center', marginTop: '24px'}}>
+                                <button className="btn btn-primary" onClick={() => setView('menu')}>
+                                    Back to Challenges
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            
+            if (view === 'results') {
+                const correctCount = questionResults.filter(r => r.correct).length;
+                const accuracy = correctCount / currentChallenge.questions.length;
+                const stars = getStars(accuracy);
+                const xpEarned = Math.floor(currentChallenge.xpReward * accuracy) + 
+                    (accuracy === 1 ? 50 : 0);
+                
+                return (
+                    <div className="app-container">
+                        <div className="quiz-container results-container">
+                            <div className="results-header">
+                                <div className="results-icon">
+                                    {accuracy >= 0.9 ? '🏆' : accuracy >= 0.7 ? '👏' : accuracy >= 0.5 ? '👍' : '📚'}
+                                </div>
+                                <h2 className="results-title">
+                                    {accuracy >= 0.9 ? 'Outstanding!' : accuracy >= 0.7 ? 'Great Job!' : accuracy >= 0.5 ? 'Good Effort!' : 'Keep Learning!'}
+                                </h2>
+                                <p className="results-subtitle">{currentChallenge.title} Complete</p>
+                            </div>
+                            
+                            <div className="stars-earned">
+                                {[1, 2, 3].map(i => (
+                                    <span key={i} className={`star ${i <= stars ? 'filled' : ''}`}>★</span>
+                                ))}
+                            </div>
+                            
+                            <div className="results-score">
+                                <div className="score-big">{score}</div>
+                                <div className="score-label">Points Earned</div>
+                            </div>
+                            
+                            <div className="results-stats">
+                                <div className="result-stat">
+                                    <div className="value">{correctCount}/{currentChallenge.questions.length}</div>
+                                    <div className="label">Correct</div>
+                                </div>
+                                <div className="result-stat">
+                                    <div className="value">{Math.round(accuracy * 100)}%</div>
+                                    <div className="label">Accuracy</div>
+                                </div>
+                                <div className="result-stat">
+                                    <div className="value">{maxStreak}</div>
+                                    <div className="label">Best Streak</div>
+                                </div>
+                                <div className="result-stat">
+                                    <div className="value">+{xpEarned}</div>
+                                    <div className="label">XP Earned</div>
+                                </div>
+                            </div>
+                            
+                            <div className="xp-gain">
+                                🎉 You earned {xpEarned} XP! Total: {stats.totalXp} XP
+                            </div>
+                            
+                            {newBadges.length > 0 && (
+                                <div className="badges-earned">
+                                    <h3 className="badges-title">🎖️ New Badges Unlocked!</h3>
+                                    <div className="badges-grid">
+                                        {newBadges.map(badge => (
+                                            <div key={badge.id} className="badge new">
+                                                <span className="badge-icon">{badge.icon}</span>
+                                                <span className="badge-name">{badge.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            
+                            <div className="button-row" style={{justifyContent: 'center'}}>
+                                <button className="btn btn-secondary" onClick={() => startChallenge(currentChallenge)}>
+                                    Try Again
+                                </button>
+                                <button className="btn btn-primary" onClick={() => setView('menu')}>
+                                    Back to Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            
+            if (view === 'quiz') {
+                const question = currentChallenge.questions[currentQuestion];
+                const timerClass = timeRemaining < 30 ? (timeRemaining < 10 ? 'danger' : 'warning') : '';
+                
+                return (
+                    <div className="app-container">
+                        <div className="quiz-container">
+                            <div className="quiz-header">
+                                <span className="question-progress">
+                                    Question {currentQuestion + 1} of {currentChallenge.questions.length}
+                                </span>
+                                
+                                {mode === 'game' && (
+                                    <>
+                                        <div className={`timer ${timerClass}`}>
+                                            ⏱️ {formatTime(timeRemaining)}
+                                        </div>
+                                        <div className="score-display">
+                                            💰 {score}
+                                        </div>
+                                        {streak >= 2 && (
+                                            <div className="streak-display">
+                                                🔥 {streak}x Streak!
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                            
+                            {question.vignette && (
+                                <div className="clinical-vignette">
+                                    📋 <strong>Clinical Scenario:</strong> {question.vignette}
+                                </div>
+                            )}
+                            
+                            <div className="question-text">{question.question}</div>
+                            
+                            <div className="options-grid">
+                                {question.options.map((option, idx) => {
+                                    let className = 'option-btn';
+                                    if (showFeedback) {
+                                        className += ' disabled';
+                                        if (idx === question.correct) className += ' correct';
+                                        else if (idx === selectedAnswer) className += ' incorrect';
+                                    } else if (idx === selectedAnswer) {
+                                        className += ' selected';
+                                    }
+                                    
+                                    return (
+                                        <button
+                                            key={idx}
+                                            className={className}
+                                            onClick={() => handleAnswer(idx)}
+                                            disabled={showFeedback}
+                                        >
+                                            {String.fromCharCode(65 + idx)}. {option}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            
+                            {showFeedback && (
+                                <div className={`feedback ${selectedAnswer === question.correct ? 'correct' : 'incorrect'}`}>
+                                    <div className="feedback-header">
+                                        {selectedAnswer === question.correct ? '✅ Correct!' : '❌ Incorrect'}
+                                    </div>
+                                    <p>{question.explanation}</p>
+                                    
+                                    {mode === 'game' && (
+                                        <div className="points-earned">
+                                            {selectedAnswer === question.correct ? (
+                                                <>
+                                                    <span className="point-item positive">+100 base</span>
+                                                    {streak >= 3 && <span className="point-item bonus">+{25 * (streak - 2)} streak</span>}
+                                                    {timeRemaining > 20 && <span className="point-item bonus">+{Math.floor(timeRemaining / 10) * 5} speed</span>}
+                                                </>
+                                            ) : (
+                                                <span className="point-item negative">+0 points</span>
+                                            )}
+                                        </div>
+                                    )}
+                                    
+                                    <div className="button-row">
+                                        <button className="btn btn-primary" onClick={nextQuestion}>
+                                            {currentQuestion < currentChallenge.questions.length - 1 ? 'Next Question' : 'See Results'}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+            
+            // Menu View
+            return (
+                <div className="app-container">
+                    <header className="game-header">
+                        <div className="header-left">
+                            <h1>🩺 Urticaria Management Challenge</h1>
+                            <p className="subtitle">Master evidence-based chronic urticaria treatment</p>
+                        </div>
+                        <div className="header-right">
+                            <div className="stat-box">
+                                <div className="value">{stats.totalXp}</div>
+                                <div className="label">Total XP</div>
+                            </div>
+                            <div className="stat-box">
+                                <div className="value">{stats.badges.length}/{BADGES.length}</div>
+                                <div className="label">Badges</div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div className="level-section">
+                        <div className="level-header">
+                            <div className="level-title">
+                                <span className="level-icon">{levelInfo.current.icon}</span>
+                                <span className="level-name">{levelInfo.current.name}</span>
+                            </div>
+                            <span className="xp-text">
+                                {levelInfo.next 
+                                    ? `${stats.totalXp} / ${levelInfo.next.xpRequired} XP`
+                                    : 'Max Level!'}
+                            </span>
+                        </div>
+                        <div className="progress-bar">
+                            <div className="progress-fill" style={{width: `${levelInfo.progress}%`}}></div>
+                        </div>
+                    </div>
+                    
+                    <div className="mode-selection">
+                        <div 
+                            className={`mode-card ${mode === 'practice' ? 'selected' : ''}`}
+                            onClick={() => setMode('practice')}
+                        >
+                            <div className="icon">📚</div>
+                            <h3>Practice Mode</h3>
+                            <p>Learn at your own pace. No timer, focus on understanding.</p>
+                        </div>
+                        <div 
+                            className={`mode-card ${mode === 'game' ? 'selected' : ''}`}
+                            onClick={() => setMode('game')}
+                        >
+                            <div className="icon">🎮</div>
+                            <h3>Game Mode</h3>
+                            <p>Race the clock! Earn bonus points for speed and streaks.</p>
+                        </div>
+                    </div>
+                    
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                        <h2 style={{fontSize: '1.2rem', fontWeight: '700'}}>🎯 Challenges</h2>
+                        <button 
+                            className="btn btn-secondary" 
+                            onClick={() => setView('badges')}
+                            style={{padding: '8px 16px', fontSize: '0.9rem'}}
+                        >
+                            🏆 View Badges
+                        </button>
+                    </div>
+                    
+                    <div className="challenges-grid">
+                        {CHALLENGES.map((challenge, idx) => {
+                            const bestScore = stats.challengeScores[challenge.id] || 0;
+                            const isLocked = idx > 0 && !stats.challengeScores[CHALLENGES[idx-1].id];
+                            const bestStars = bestScore > 0 ? getStars(bestScore / (challenge.questions.length * 100)) : 0;
+                            
+                            return (
+                                <div 
+                                    key={challenge.id}
+                                    className={`challenge-card ${isLocked ? 'locked' : ''}`}
+                                    onClick={() => !isLocked && startChallenge(challenge)}
+                                >
+                                    <div className="challenge-info">
+                                        <div 
+                                            className="challenge-icon"
+                                            style={{background: challenge.iconBg}}
+                                        >
+                                            {isLocked ? '🔒' : challenge.icon}
+                                        </div>
+                                        <div className="challenge-details">
+                                            <h3>{challenge.title}</h3>
+                                            <p>{challenge.description}</p>
+                                        </div>
+                                    </div>
+                                    <div className="challenge-meta">
+                                        <div className={`difficulty-badge difficulty-${challenge.difficulty}`}>
+                                            {challenge.difficulty}
+                                        </div>
+                                        <div className="stars">
+                                            {[1, 2, 3].map(i => (
+                                                <span key={i} className={i <= bestStars ? '' : 'star'} style={{opacity: i <= bestStars ? 1 : 0.3}}>★</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    
+                    <div style={{textAlign: 'center', marginTop: '32px', opacity: 0.6, fontSize: '0.85rem'}}>
+                        <p>Based on AAAAI/ACAAI JTFPP Systematic Reviews 2024-2025</p>
+                        <p>93 studies | 11,398 participants | 42 treatments evaluated</p>
+                    </div>
+                </div>
+            );
+        }
+        
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
