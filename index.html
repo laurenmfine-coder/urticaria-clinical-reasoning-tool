@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronic Urticaria Clinical Reasoning Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 60px 24px 80px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, transparent 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #a5b4fc;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .hero-stat {
+            text-align: center;
+        }
+        
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Main Cards */
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        .main-card {
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .main-card:hover {
+            transform: translateY(-8px);
+            border-color: #6366f1;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+        
+        .card-header {
+            padding: 32px 28px 24px;
+            position: relative;
+        }
+        
+        .card-header.game {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        .card-header.compendium {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .card-subtitle {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.85);
+        }
+        
+        .card-body {
+            padding: 24px 28px 28px;
+        }
+        
+        .card-features {
+            list-style: none;
+        }
+        
+        .card-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+        
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .card-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+        }
+        
+        .cta-text {
+            font-weight: 700;
+            color: #a5b4fc;
+            font-size: 1rem;
+        }
+        
+        .cta-arrow {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .main-card:hover .cta-arrow {
+            background: #6366f1;
+            transform: translateX(4px);
+        }
+        
+        /* Resources Section */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+        
+        .resource-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .resource-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-4px);
+        }
+        
+        .resource-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        
+        .resource-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .resource-desc {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        /* Evidence Section */
+        .evidence-section {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 48px;
+            border: 1px solid #334155;
+        }
+        
+        .evidence-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        
+        .evidence-item {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        .evidence-item-title {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        
+        .evidence-item-cite {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px 24px;
+            border-top: 1px solid #1e293b;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        
+        .footer-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #6366f1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-stats {
+                gap: 24px;
+            }
+            
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Quick Action Buttons */
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-btn.primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .quick-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+        }
+        
+        .quick-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .quick-btn.secondary:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+        }
+        
+        /* Animated gradient border */
+        .gradient-border {
+            position: relative;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+            background-size: 300% 300%;
+            animation: gradient-rotate 6s ease infinite;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .main-card:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes gradient-rotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge-row">
+                <span class="badge">Evidence-Based</span>
+                <span class="badge">AAAAI/ACAAI</span>
+                <span class="badge">December 2025</span>
+            </div>
+            
+            <h1>🩺 Chronic Urticaria Clinical Reasoning Tool</h1>
+            
+            <p class="subtitle">
+                Master evidence-based urticaria management with interactive learning tools based on four AAAAI/ACAAI systematic reviews.
+            </p>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">158</div>
+                    <div class="hero-stat-label">Studies</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">~16K</div>
+                    <div class="hero-stat-label">Participants</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">42</div>
+                    <div class="hero-stat-label">Treatments</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">4</div>
+                    <div class="hero-stat-label">Reviews</div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <a href="game/urticaria-challenge.html" class="quick-btn primary">
+                    🎮 Start Learning Game
+                </a>
+                <a href="game/urticaria-compendium.html" class="quick-btn secondary">
+                    📚 Open Compendium
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <main class="main-container">
+        <div class="card-grid">
+            <!-- Game Card -->
+            <a href="game/urticaria-challenge.html" class="main-card gradient-border">
+                <div class="card-header game">
+                    <div class="card-icon">🎮</div>
+                    <h2 class="card-title">Challenge Game</h2>
+                    <p class="card-subtitle">Test your knowledge with gamified quizzes</p>
+                </div>
+                <div class="card-body">
+                    <ul class="card-features">
+                        <li>
+                            <span class="feature-icon">⏱️</span>
+                            <span>Timed challenges with speed bonuses</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">🔥</span>
+                            <span>Streak multipliers for consecutive answers</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">🏆</span>
+                            <span>10 achievement badges to unlock</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📈</span>
+                            <span>7-level progression system</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📝</span>
+                            <span>5 challenge categories</span>
+                        </li>
+                    </ul>
+                    <div class="card-cta">
+                        <span class="cta-text">Start Playing</span>
+                        <span class="cta-arrow">→</span>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Compendium Card -->
+            <a href="game/urticaria-compendium.html" class="main-card gradient-border">
+                <div class="card-header compendium">
+                    <div class="card-icon">📚</div>
+                    <h2 class="card-title">Clinical Compendium</h2>
+                    <p class="card-subtitle">Comprehensive reference for clinicians</p>
+                </div>
+                <div class="card-body">
+                    <ul class="card-features">
+                        <li>
+                            <span class="feature-icon">🔄</span>
+                            <span>Step-by-step treatment algorithm</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">💉</span>
+                            <span>Biologic medication profiles</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📊</span>
+                            <span>Side-by-side comparison tables</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">💡</span>
+                            <span>High-yield clinical pearls</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📖</span>
+                            <span>Evidence summaries from all reviews</span>
+                        </li>
+                    </ul>
+                    <div class="card-cta">
+                        <span class="cta-text">Open Reference</span>
+                        <span class="cta-arrow">→</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Additional Resources -->
+        <h2 class="section-title">📁 Study Materials</h2>
+        <div class="resources-grid">
+            <a href="evidence_summaries/JTFPP_systematic_reviews_integrated.md" class="resource-card">
+                <div class="resource-icon">📑</div>
+                <div class="resource-title">Evidence Summaries</div>
+                <div class="resource-desc">Full systematic review synthesis</div>
+            </a>
+            <a href="cases/clinical_cases_integrated.md" class="resource-card">
+                <div class="resource-icon">🏥</div>
+                <div class="resource-title">Clinical Cases</div>
+                <div class="resource-desc">10 tiered patient scenarios</div>
+            </a>
+            <a href="quizzes/quiz_bank_integrated.md" class="resource-card">
+                <div class="resource-icon">✅</div>
+                <div class="resource-title">Quiz Bank</div>
+                <div class="resource-desc">23 MCQs with explanations</div>
+            </a>
+            <a href="flashcards/flashcards_integrated.md" class="resource-card">
+                <div class="resource-icon">🗂️</div>
+                <div class="resource-title">Flashcards</div>
+                <div class="resource-desc">50 cards for review</div>
+            </a>
+            <a href="pearls/clinical_pearls_integrated.md" class="resource-card">
+                <div class="resource-icon">💎</div>
+                <div class="resource-title">Clinical Pearls</div>
+                <div class="resource-desc">47 high-yield facts</div>
+            </a>
+            <a href="tables/treatment_comparison_tables.md" class="resource-card">
+                <div class="resource-icon">📊</div>
+                <div class="resource-title">Comparison Tables</div>
+                <div class="resource-desc">7 reference tables</div>
+            </a>
+            <a href="algorithms/treatment_algorithm_2025.md" class="resource-card">
+                <div class="resource-icon">🔀</div>
+                <div class="resource-title">Treatment Algorithm</div>
+                <div class="resource-desc">Stepwise management guide</div>
+            </a>
+        </div>
+        
+        <!-- Evidence Base -->
+        <div class="evidence-section">
+            <h2>📚 Evidence Base: 4 AAAAI/ACAAI Systematic Reviews</h2>
+            <div class="evidence-grid">
+                <div class="evidence-item">
+                    <div class="evidence-item-title">Biologics & Immunomodulators NMA</div>
+                    <div class="evidence-item-cite">Chu AWL et al. JACI 2025 • 93 studies • 11,398 patients</div>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-item-title">Leukotriene Receptor Antagonists</div>
+                    <div class="evidence-item-cite">Rayner DG et al. JACI 2024 • 34 RCTs • 3,324 patients</div>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-item-title">Systemic Corticosteroids</div>
+                    <div class="evidence-item-cite">Chu X et al. JACI Practice 2024 • 12 RCTs • 944 patients</div>
+                </div>
+                <div class="evidence-item">
+                    <div class="evidence-item-title">Topical Corticosteroids</div>
+                    <div class="evidence-item-cite">Chu AWL et al. Ann Allergy 2024 • 19 RCTs • 379 patients</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-logo">🩺 Urticaria Clinical Reasoning Tool</div>
+        <p class="footer-text">
+            Evidence-based learning resource for clinicians and trainees
+        </p>
+        <p class="footer-text">
+            Based on AAAAI/ACAAI JTFPP Systematic Reviews 2024-2025
+        </p>
+        <div class="footer-links">
+            <a href="README.md">Documentation</a>
+            <a href="game/urticaria-challenge.html">Game</a>
+            <a href="game/urticaria-compendium.html">Compendium</a>
+        </div>
+        <p class="footer-text" style="margin-top: 24px; font-size: 0.75rem;">
+            For educational purposes only. Clinical decisions should be individualized.<br>
+            License: CC BY-NC 4.0
+        </p>
+    </footer>
+</body>
+</html>
