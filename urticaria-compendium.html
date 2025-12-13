@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urticaria Treatment Compendium | Clinical Reference</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            color: white;
+            padding: 24px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-game {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-game:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 24px 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .nav-section {
+            margin-bottom: 24px;
+        }
+        
+        .nav-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            padding: 0 24px;
+            margin-bottom: 8px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 10px 24px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: #f1f5f9;
+            color: #1e40af;
+        }
+        
+        .nav-item.active {
+            background: #eff6ff;
+            color: #1e40af;
+            border-left-color: #1e40af;
+            font-weight: 600;
+        }
+        
+        .nav-item .icon {
+            margin-right: 8px;
+        }
+        
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Section Styles */
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .section-header p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Algorithm Steps */
+        .algorithm-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .algorithm-step {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 24px;
+            border-left: 4px solid #3b82f6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .algorithm-step.step-1 { border-left-color: #22c55e; }
+        .algorithm-step.step-2 { border-left-color: #3b82f6; }
+        .algorithm-step.step-3 { border-left-color: #8b5cf6; }
+        .algorithm-step.step-4 { border-left-color: #f59e0b; }
+        .algorithm-step.step-5 { border-left-color: #ef4444; }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #1e40af;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 12px;
+        }
+        
+        .step-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+        
+        .step-content {
+            margin-top: 12px;
+            padding-left: 40px;
+            color: #475569;
+        }
+        
+        .step-details {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        th {
+            background: #1e40af;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background: #f8fafc;
+        }
+        
+        .efficacy-high { color: #16a34a; font-weight: 600; }
+        .efficacy-moderate { color: #ca8a04; font-weight: 600; }
+        .efficacy-low { color: #dc2626; font-weight: 600; }
+        
+        .certainty-high { 
+            background: #dcfce7; 
+            color: #166534; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .certainty-moderate { 
+            background: #fef9c3; 
+            color: #854d0e; 
+            padding: 2px 8px; 
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .certainty-low { 
+            background: #fee2e2; 
+            color: #991b1b; 
+            padding: 2px 8px; 
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        /* Medication Cards */
+        .med-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .med-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .med-card-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+        }
+        
+        .med-card-header.biologic { background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%); }
+        .med-card-header.immunomod { background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%); }
+        .med-card-header.adjunct { background: linear-gradient(135deg, #0d9488 0%, #2dd4bf 100%); }
+        
+        .med-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .med-class {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        
+        .med-card-body {
+            padding: 20px;
+        }
+        
+        .med-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .med-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .med-stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .med-stat-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .med-pearls {
+            margin-top: 16px;
+            padding: 12px;
+            background: #fffbeb;
+            border-radius: 8px;
+            border: 1px solid #fde68a;
+        }
+        
+        .med-pearls-title {
+            font-weight: 600;
+            color: #92400e;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        
+        .med-pearls ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 0.85rem;
+            color: #78350f;
+        }
+        
+        .med-pearls li {
+            margin-bottom: 4px;
+        }
+        
+        /* Clinical Pearls */
+        .pearl-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .pearl-item {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        
+        .pearl-item.high-yield {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .pearl-category {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #f59e0b;
+            margin-bottom: 6px;
+        }
+        
+        .pearl-item.high-yield .pearl-category {
+            color: #ef4444;
+        }
+        
+        .pearl-text {
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+        
+        /* Evidence Cards */
+        .evidence-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .evidence-header {
+            background: #1e293b;
+            color: white;
+            padding: 16px 20px;
+        }
+        
+        .evidence-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .evidence-citation {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        .evidence-body {
+            padding: 20px;
+        }
+        
+        .evidence-stat-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .evidence-stat {
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .evidence-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e40af;
+        }
+        
+        .evidence-stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .key-finding {
+            background: #eff6ff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .key-finding-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #1e40af;
+            margin-bottom: 4px;
+        }
+        
+        /* Tabs within sections */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s ease;
+        }
+        
+        .tab:hover {
+            color: #1e40af;
+        }
+        
+        .tab.active {
+            color: #1e40af;
+            border-bottom-color: #1e40af;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Quick Reference Box */
+        .quick-ref {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .quick-ref h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .quick-ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .quick-ref-item {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .quick-ref-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .quick-ref-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 24px 32px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 16px;
+                gap: 8px;
+            }
+            
+            .nav-section {
+                margin-bottom: 0;
+            }
+            
+            .nav-section-title {
+                display: none;
+            }
+            
+            .nav-item {
+                padding: 8px 16px;
+                border-radius: 20px;
+                border-left: none;
+                background: #f1f5f9;
+                font-size: 0.85rem;
+            }
+            
+            .nav-item.active {
+                background: #1e40af;
+                color: white;
+            }
+            
+            .med-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .sidebar, .header-actions, .btn-game {
+                display: none;
+            }
+            
+            .content-section {
+                display: block !important;
+                page-break-before: always;
+            }
+            
+            .content-section:first-child {
+                page-break-before: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>🩺 Urticaria Treatment Compendium</h1>
+                <p class="header-subtitle">Evidence-Based Clinical Reference | Updated December 2025</p>
+            </div>
+            <div class="header-actions">
+                <a href="urticaria-challenge.html" class="btn-game">🎮 Play Challenge Game</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Getting Started</div>
+                <a class="nav-item active" data-section="overview"><span class="icon">📋</span>Overview</a>
+                <a class="nav-item" data-section="algorithm"><span class="icon">🔄</span>Treatment Algorithm</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Medications</div>
+                <a class="nav-item" data-section="biologics"><span class="icon">💉</span>Biologics</a>
+                <a class="nav-item" data-section="immunomod"><span class="icon">💊</span>Immunomodulators</a>
+                <a class="nav-item" data-section="adjuncts"><span class="icon">➕</span>Adjunctive Therapies</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Reference</div>
+                <a class="nav-item" data-section="tables"><span class="icon">📊</span>Comparison Tables</a>
+                <a class="nav-item" data-section="pearls"><span class="icon">💡</span>Clinical Pearls</a>
+                <a class="nav-item" data-section="evidence"><span class="icon">📚</span>Evidence Summaries</a>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <!-- OVERVIEW SECTION -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>📋 Overview</h2>
+                    <p>Quick reference guide to evidence-based chronic urticaria management</p>
+                </div>
+                
+                <div class="quick-ref">
+                    <h3>⚡ Quick Facts</h3>
+                    <div class="quick-ref-grid">
+                        <div class="quick-ref-item">
+                            <div class="quick-ref-label">Evidence Base</div>
+                            <div class="quick-ref-value">158 Studies</div>
+                        </div>
+                        <div class="quick-ref-item">
+                            <div class="quick-ref-label">Participants</div>
+                            <div class="quick-ref-value">~16,000</div>
+                        </div>
+                        <div class="quick-ref-item">
+                            <div class="quick-ref-label">Most Effective</div>
+                            <div class="quick-ref-value">Omalizumab</div>
+                        </div>
+                        <div class="quick-ref-item">
+                            <div class="quick-ref-label">Best Oral Option</div>
+                            <div class="quick-ref-value">Remibrutinib</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">🎯 What This Tool Provides</h3>
+                    <p>This compendium integrates evidence from <strong>four AAAAI/ACAAI systematic reviews</strong> (2024-2025) covering:</p>
+                    <ul style="margin-top: 12px; padding-left: 24px;">
+                        <li><strong>Systemic Corticosteroids</strong> — When to use for acute flares</li>
+                        <li><strong>Leukotriene Receptor Antagonists</strong> — The limited role of montelukast</li>
+                        <li><strong>Topical Corticosteroids</strong> — For localized/inducible urticaria</li>
+                        <li><strong>Biologics & Immunomodulators</strong> — Network meta-analysis of 42 treatments</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">🏆 Treatment Rankings at a Glance</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Treatment</th>
+                                    <th>UAS7 Improvement</th>
+                                    <th>Certainty</th>
+                                    <th>Key Advantage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Omalizumab 300mg Q4W</strong></td>
+                                    <td class="efficacy-high">MD -8.37</td>
+                                    <td><span class="certainty-high">HIGH</span></td>
+                                    <td>Extensive safety data, angioedema efficacy</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Remibrutinib</strong></td>
+                                    <td class="efficacy-high">MD -7.65</td>
+                                    <td><span class="certainty-high">HIGH</span></td>
+                                    <td>Oral administration</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dupilumab</strong></td>
+                                    <td class="efficacy-moderate">MD -6.01</td>
+                                    <td><span class="certainty-moderate">MODERATE</span></td>
+                                    <td>Type 2 comorbidities</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cyclosporine</strong></td>
+                                    <td class="efficacy-high">MD -10.18</td>
+                                    <td><span class="certainty-low">LOW</span></td>
+                                    <td>May be most effective (but most harmful)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">⚠️ Critical Evidence Gaps</h3>
+                    <ul style="padding-left: 24px;">
+                        <li><strong>Dupilumab angioedema:</strong> NO trials reported angioedema outcomes</li>
+                        <li><strong>High-dose omalizumab:</strong> No RCT comparisons to standard dose</li>
+                        <li><strong>LTRA + AH vs 4× AH:</strong> Never studied head-to-head</li>
+                        <li><strong>Long-term safety:</strong> Limited data beyond 1 year for most agents</li>
+                        <li><strong>Pediatric data:</strong> Very limited for ages &lt;12</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- TREATMENT ALGORITHM SECTION -->
+            <section id="algorithm" class="content-section">
+                <div class="section-header">
+                    <h2>🔄 Treatment Algorithm</h2>
+                    <p>Stepwise approach to chronic urticaria management based on 2024-2025 evidence</p>
+                </div>
+                
+                <div class="algorithm-container">
+                    <div class="algorithm-step step-1">
+                        <span class="step-number">1</span>
+                        <span class="step-title">Second-Generation H1-Antihistamine</span>
+                        <div class="step-content">
+                            <strong>Standard dose</strong> (e.g., cetirizine 10mg, loratadine 10mg, fexofenadine 180mg)
+                            <div class="step-details">
+                                <strong>If inadequate after 2-4 weeks →</strong> Proceed to Step 2
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="algorithm-step step-2">
+                        <span class="step-number">2</span>
+                        <span class="step-title">Updose Antihistamine to 4× Standard</span>
+                        <div class="step-content">
+                            E.g., cetirizine 40mg/day, fexofenadine 720mg/day
+                            <div class="step-details">
+                                <strong>Note:</strong> LTRAs provide only MD -5.04 (below MID of 10). Consider if patient preference, but counsel on FDA boxed warning for neuropsychiatric AEs.<br><br>
+                                <strong>If inadequate after 2-4 weeks →</strong> Proceed to Step 3
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="algorithm-step step-3">
+                        <span class="step-number">3</span>
+                        <span class="step-title">Add Biologic Therapy</span>
+                        <div class="step-content">
+                            <strong>First-line:</strong> Omalizumab 300mg Q4W<br>
+                            <strong>Alternatives:</strong>
+                            <ul style="margin-top: 8px;">
+                                <li><strong>Remibrutinib</strong> — If needle phobia, similar efficacy (oral)</li>
+                                <li><strong>Dupilumab</strong> — If comorbid atopic dermatitis or CRSwNP (but NO angioedema data)</li>
+                            </ul>
+                            <div class="step-details">
+                                <strong>Assess response at 3-6 months.</strong> If partial response → Step 4
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="algorithm-step step-4">
+                        <span class="step-number">4</span>
+                        <span class="step-title">Optimize Biologic / Consider Alternatives</span>
+                        <div class="step-content">
+                            <strong>Omalizumab updosing:</strong> 300mg Q2W or 450-600mg Q4W<br>
+                            <em>~69% of standard-dose non-responders may respond (case series data)</em>
+                            <div class="step-details">
+                                <strong>If biologic failure or unavailable →</strong> Proceed to Step 5
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="algorithm-step step-5">
+                        <span class="step-number">5</span>
+                        <span class="step-title">Immunosuppressant Therapy</span>
+                        <div class="step-content">
+                            <strong>Cyclosporine:</strong> May be most effective (MD -10.18) but may be most harmful (+21% more AEs)
+                            <ul style="margin-top: 8px;">
+                                <li>Requires monitoring: BP, renal function, lipids</li>
+                                <li>Short-term use preferred</li>
+                                <li>Consider when biologics unavailable or failed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 24px;">
+                    <h3 class="card-title">🆘 Adjunctive Management</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                        <div style="background: #fef3c7; padding: 16px; border-radius: 8px;">
+                            <strong style="color: #92400e;">Acute Flares</strong>
+                            <p style="margin-top: 8px; font-size: 0.9rem;">Short-course systemic corticosteroids (&lt;1 week)<br>
+                            <strong>NNT 7</strong> in antihistamine-refractory<br>
+                            <strong>NNT 45</strong> in antihistamine-responsive (avoid)</p>
+                        </div>
+                        <div style="background: #dbeafe; padding: 16px; border-radius: 8px;">
+                            <strong style="color: #1e40af;">Localized/Inducible Urticaria</strong>
+                            <p style="margin-top: 8px; font-size: 0.9rem;">Topical corticosteroids may be considered<br>
+                            ~50% wheal reduction (LOW certainty)<br>
+                            HIGH certainty for safety</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- BIOLOGICS SECTION -->
+            <section id="biologics" class="content-section">
+                <div class="section-header">
+                    <h2>💉 Biologic Therapies</h2>
+                    <p>Evidence-based comparison of FDA-approved and emerging biologics</p>
+                </div>
+                
+                <div class="med-grid">
+                    <!-- Omalizumab -->
+                    <div class="med-card">
+                        <div class="med-card-header biologic">
+                            <div class="med-name">Omalizumab (Xolair)</div>
+                            <div class="med-class">Anti-IgE monoclonal antibody</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #16a34a;">MD -8.37</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-high">HIGH</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Angioedema Data</span>
+                                <span class="med-stat-value" style="color: #16a34a;">+8.75% more free weeks</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Standard Dose</span>
+                                <span class="med-stat-value">300mg Q4W SC</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">FDA Status</span>
+                                <span class="med-stat-value">Approved (CSU)</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">💡 Clinical Pearls</div>
+                                <ul>
+                                    <li>First-line biologic for most patients</li>
+                                    <li>~69% of non-responders may respond to updosing</li>
+                                    <li>Extensive long-term safety data</li>
+                                    <li>Also approved for food allergy, asthma</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dupilumab -->
+                    <div class="med-card">
+                        <div class="med-card-header biologic">
+                            <div class="med-name">Dupilumab (Dupixent)</div>
+                            <div class="med-class">Anti-IL-4Rα monoclonal antibody</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #ca8a04;">MD -6.01</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-moderate">MODERATE</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Angioedema Data</span>
+                                <span class="med-stat-value" style="color: #dc2626;">NO DATA ⚠️</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Standard Dose</span>
+                                <span class="med-stat-value">300mg Q2W SC</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">FDA Status</span>
+                                <span class="med-stat-value">Approved (CSU)</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">💡 Clinical Pearls</div>
+                                <ul>
+                                    <li>Best for Type 2 comorbidities (AD, CRSwNP)</li>
+                                    <li>AVOID if prominent angioedema (no data)</li>
+                                    <li>Works better in omalizumab-naive patients</li>
+                                    <li>"One drug, two diseases" advantage</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Remibrutinib -->
+                    <div class="med-card">
+                        <div class="med-card-header biologic">
+                            <div class="med-name">Remibrutinib</div>
+                            <div class="med-class">BTK inhibitor (oral)</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #16a34a;">MD -7.65</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-high">HIGH</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Angioedema Data</span>
+                                <span class="med-stat-value" style="color: #16a34a;">+15% more free weeks</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Administration</span>
+                                <span class="med-stat-value">ORAL (no injection)</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">FDA Status</span>
+                                <span class="med-stat-value">Pending approval</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">💡 Clinical Pearls</div>
+                                <ul>
+                                    <li>Best option for needle phobia</li>
+                                    <li>BEST for angioedema (+15% vs +8.75% omalizumab)</li>
+                                    <li>Less long-term safety data than omalizumab</li>
+                                    <li>Phase 3 REMIX trials positive</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Barzolvolimab -->
+                    <div class="med-card">
+                        <div class="med-card-header biologic">
+                            <div class="med-name">Barzolvolimab</div>
+                            <div class="med-class">Anti-KIT monoclonal antibody</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #ca8a04;">MD -7.18</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-low">LOW</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Unique Feature</span>
+                                <span class="med-stat-value" style="color: #7c3aed;">41% remission OFF drug</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Mechanism</span>
+                                <span class="med-stat-value">Depletes mast cells</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">FDA Status</span>
+                                <span class="med-stat-value">Phase 3 ongoing</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">💡 Clinical Pearls</div>
+                                <ul>
+                                    <li>Potential DISEASE MODIFICATION</li>
+                                    <li>41% complete remission sustained 7 months post-treatment</li>
+                                    <li>May cause hair color changes</li>
+                                    <li>Unprecedented durability of response</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 24px;">
+                    <h3 class="card-title">❌ Failed Biologics (Don't Use for CSU)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Drug</th>
+                                    <th>Target</th>
+                                    <th>Trial</th>
+                                    <th>Why It Failed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Ligelizumab</strong></td>
+                                    <td>Anti-IgE</td>
+                                    <td>PEARL-1, PEARL-2</td>
+                                    <td>No superiority over omalizumab; development discontinued</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Benralizumab</strong></td>
+                                    <td>Anti-IL-5</td>
+                                    <td>ARROYO</td>
+                                    <td>Eosinophils not central to urticaria pathophysiology</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tezepelumab</strong></td>
+                                    <td>Anti-TSLP</td>
+                                    <td>INCEPTION</td>
+                                    <td>Type 2 skin inflammation is TSLP-independent</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Canakinumab</strong></td>
+                                    <td>Anti-IL-1β</td>
+                                    <td>URTICANA</td>
+                                    <td>IL-1β not a key driver (MD 0.02 = no effect)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quilizumab</strong></td>
+                                    <td>Anti-IgE M1'</td>
+                                    <td>QUAIL</td>
+                                    <td>Targeting only membrane IgE insufficient</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- IMMUNOMODULATORS SECTION -->
+            <section id="immunomod" class="content-section">
+                <div class="section-header">
+                    <h2>💊 Immunomodulators</h2>
+                    <p>Non-biologic immunosuppressants for refractory chronic urticaria</p>
+                </div>
+                
+                <div class="med-grid">
+                    <!-- Cyclosporine -->
+                    <div class="med-card">
+                        <div class="med-card-header immunomod">
+                            <div class="med-name">Cyclosporine</div>
+                            <div class="med-class">Calcineurin inhibitor</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #16a34a;">MD -10.18</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-low">LOW</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Safety Concern</span>
+                                <span class="med-stat-value" style="color: #dc2626;">+21% more AEs</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Typical Dose</span>
+                                <span class="med-stat-value">3-5 mg/kg/day</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">⚠️ Important Considerations</div>
+                                <ul>
+                                    <li>May be MOST EFFECTIVE but MAY BE MOST HARMFUL</li>
+                                    <li>Requires monitoring: BP, renal, lipids, potassium</li>
+                                    <li>Short-term use preferred (&lt;6 months)</li>
+                                    <li>Consider when biologics unavailable/failed</li>
+                                    <li>Drug interactions: statins, grapefruit</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mycophenolate -->
+                    <div class="med-card">
+                        <div class="med-card-header immunomod">
+                            <div class="med-name">Mycophenolate Mofetil</div>
+                            <div class="med-class">Purine synthesis inhibitor</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #ca8a04;">MD -15.01*</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-low">VERY LOW</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Data Source</span>
+                                <span class="med-stat-value">Non-randomized only</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Typical Dose</span>
+                                <span class="med-stat-value">1-2g/day</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">💡 Clinical Pearls</div>
+                                <ul>
+                                    <li>*Effect size inflated due to non-RCT data</li>
+                                    <li>GI side effects common</li>
+                                    <li>Teratogenic — pregnancy contraindicated</li>
+                                    <li>Monitor CBC, LFTs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sulfasalazine -->
+                    <div class="med-card">
+                        <div class="med-card-header immunomod">
+                            <div class="med-name">Sulfasalazine</div>
+                            <div class="med-class">DMARD</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #ca8a04;">MD -10.65*</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-low">VERY LOW</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Data Source</span>
+                                <span class="med-stat-value">Non-randomized only</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Typical Dose</span>
+                                <span class="med-stat-value">2-4g/day</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">💡 Clinical Pearls</div>
+                                <ul>
+                                    <li>*Very uncertain evidence</li>
+                                    <li>Sulfa allergy contraindication</li>
+                                    <li>Check G6PD status</li>
+                                    <li>Monitor CBC, LFTs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dapsone -->
+                    <div class="med-card">
+                        <div class="med-card-header immunomod">
+                            <div class="med-name">Dapsone</div>
+                            <div class="med-class">Sulfone antibiotic</div>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-stat">
+                                <span class="med-stat-label">UAS7 Improvement</span>
+                                <span class="med-stat-value" style="color: #6b7280;">Limited data</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Evidence Certainty</span>
+                                <span class="certainty-low">VERY LOW</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Safety Concern</span>
+                                <span class="med-stat-value" style="color: #dc2626;">+32% more AEs</span>
+                            </div>
+                            <div class="med-stat">
+                                <span class="med-stat-label">Typical Dose</span>
+                                <span class="med-stat-value">50-150mg/day</span>
+                            </div>
+                            <div class="med-pearls">
+                                <div class="med-pearls-title">⚠️ Important Considerations</div>
+                                <ul>
+                                    <li>Check G6PD before starting (hemolysis risk)</li>
+                                    <li>Monitor for methemoglobinemia</li>
+                                    <li>Peripheral neuropathy with long-term use</li>
+                                    <li>May be useful for urticarial vasculitis</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ADJUNCTS SECTION -->
+            <section id="adjuncts" class="content-section">
+                <div class="section-header">
+                    <h2>➕ Adjunctive Therapies</h2>
+                    <p>LTRAs, corticosteroids, and other add-on options</p>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" data-tab="ltra">LTRAs</button>
+                    <button class="tab" data-tab="systemic-cs">Systemic Corticosteroids</button>
+                    <button class="tab" data-tab="topical-cs">Topical Corticosteroids</button>
+                </div>
+                
+                <div id="ltra" class="tab-content active">
+                    <div class="card">
+                        <h3 class="card-title">Leukotriene Receptor Antagonists (Montelukast, Zafirlukast)</h3>
+                        
+                        <div class="quick-ref" style="background: linear-gradient(135deg, #dc2626 0%, #f87171 100%); margin: 16px 0;">
+                            <h3>⚠️ Bottom Line</h3>
+                            <p style="font-size: 1.1rem;"><strong>MD -5.04 on UAS7 — BELOW the minimally important difference (MID) of 10</strong></p>
+                            <p>"Small, potentially patient-unimportant" benefit</p>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Outcome</th>
+                                        <th>Effect</th>
+                                        <th>Certainty</th>
+                                        <th>Clinical Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Urticaria activity (UAS7)</td>
+                                        <td>MD -5.04</td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                        <td>Below MID — may not be noticeable</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sleep quality</td>
+                                        <td>MD 0.00</td>
+                                        <td><span class="certainty-low">LOW</span></td>
+                                        <td>NO effect on sleep</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Neuropsychiatric AEs</td>
+                                        <td>NNH 161</td>
+                                        <td><span class="certainty-low">LOW</span></td>
+                                        <td>FDA boxed warning required</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="med-pearls" style="margin-top: 16px;">
+                            <div class="med-pearls-title">💡 Key Points for Practice</div>
+                            <ul>
+                                <li><strong>Critical gap:</strong> No RCT compared LTRA + standard AH vs 4× updosed AH — this is the relevant clinical question</li>
+                                <li>May consider if patient refuses antihistamine updosing</li>
+                                <li><strong>Must counsel:</strong> FDA boxed warning for mood changes, suicidal ideation</li>
+                                <li>Extra caution in patients with psychiatric history</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="systemic-cs" class="tab-content">
+                    <div class="card">
+                        <h3 class="card-title">Systemic Corticosteroids for Acute Flares</h3>
+                        
+                        <div class="quick-ref" style="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); margin: 16px 0;">
+                            <h3>⚡ When to Use</h3>
+                            <div class="quick-ref-grid">
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-label">AH-Refractory</div>
+                                    <div class="quick-ref-value">NNT = 7 ✓</div>
+                                </div>
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-label">AH-Responsive</div>
+                                    <div class="quick-ref-value">NNT = 45 ✗</div>
+                                </div>
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-label">Duration</div>
+                                    <div class="quick-ref-value">&lt;1 week</div>
+                                </div>
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-label">NNH (any AE)</div>
+                                    <div class="quick-ref-value">9</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Population</th>
+                                        <th>Relative Risk</th>
+                                        <th>NNT</th>
+                                        <th>Certainty</th>
+                                        <th>Recommendation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>AH-Refractory</td>
+                                        <td>RR 1.31 (1.05-1.62)</td>
+                                        <td><strong>7</strong></td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                        <td style="color: #16a34a;">Consider short course</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AH-Responsive</td>
+                                        <td>RR 1.04 (0.95-1.14)</td>
+                                        <td><strong>45</strong></td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                        <td style="color: #dc2626;">Avoid — marginal benefit</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="med-pearls" style="margin-top: 16px;">
+                            <div class="med-pearls-title">💡 Key Points for Practice</div>
+                            <ul>
+                                <li><strong>Not disease-modifying</strong> — for acute flares only</li>
+                                <li>Short courses (&lt;1 week) minimize adverse effects</li>
+                                <li>NNH 9 for any adverse event (~15% increased risk)</li>
+                                <li>Ask: "Is this patient antihistamine-refractory?" before prescribing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="topical-cs" class="tab-content">
+                    <div class="card">
+                        <h3 class="card-title">Topical Corticosteroids</h3>
+                        
+                        <div class="quick-ref" style="background: linear-gradient(135deg, #0d9488 0%, #2dd4bf 100%); margin: 16px 0;">
+                            <h3>📍 Best Use Cases</h3>
+                            <div class="quick-ref-grid">
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-value">Localized urticaria</div>
+                                </div>
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-value">Chronic inducible urticaria</div>
+                                </div>
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-value">Dermographism</div>
+                                </div>
+                                <div class="quick-ref-item">
+                                    <div class="quick-ref-value">Pressure urticaria</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Outcome</th>
+                                        <th>Effect</th>
+                                        <th>Certainty</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Wheal size</td>
+                                        <td>RoM 0.47 (~50% reduction)</td>
+                                        <td><span class="certainty-low">LOW</span></td>
+                                        <td>Surrogate outcome</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Itch severity</td>
+                                        <td>MD -1.30 (NRS)</td>
+                                        <td><span class="certainty-low">VERY LOW</span></td>
+                                        <td>Very uncertain</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Adverse events</td>
+                                        <td>No difference</td>
+                                        <td><span class="certainty-high">HIGH</span></td>
+                                        <td>Safe for short-term use</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="med-pearls" style="margin-top: 16px;">
+                            <div class="med-pearls-title">💡 Key Points for Practice</div>
+                            <ul>
+                                <li><strong>Why limited itch effect?</strong> TCS poorly inhibit rapid mast cell degranulation</li>
+                                <li>Over time, TCS may deplete mast cell numbers</li>
+                                <li><strong>Impractical</strong> for widespread, migratory hives</li>
+                                <li>"Absence of evidence, not evidence of absence" — guidelines shouldn't dismiss</li>
+                                <li>HIGH certainty for safety — can try without concern</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- COMPARISON TABLES SECTION -->
+            <section id="tables" class="content-section">
+                <div class="section-header">
+                    <h2>📊 Comparison Tables</h2>
+                    <p>Side-by-side treatment comparisons for clinical decision-making</p>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" data-tab="efficacy-table">Efficacy</button>
+                    <button class="tab" data-tab="safety-table">Safety</button>
+                    <button class="tab" data-tab="nnt-table">NNT/NNH</button>
+                    <button class="tab" data-tab="decision-table">Decision Factors</button>
+                </div>
+                
+                <div id="efficacy-table" class="tab-content active">
+                    <div class="card">
+                        <h3 class="card-title">Treatment Efficacy Comparison</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Treatment</th>
+                                        <th>UAS7 (MD)</th>
+                                        <th>Angioedema</th>
+                                        <th>QoL (CU-Q2oL)</th>
+                                        <th>Certainty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Omalizumab 300mg</strong></td>
+                                        <td class="efficacy-high">-8.37</td>
+                                        <td class="efficacy-high">+8.75%</td>
+                                        <td class="efficacy-high">-12.68</td>
+                                        <td><span class="certainty-high">HIGH</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Remibrutinib</strong></td>
+                                        <td class="efficacy-high">-7.65</td>
+                                        <td class="efficacy-high">+15.00%</td>
+                                        <td class="efficacy-high">-11.65</td>
+                                        <td><span class="certainty-high">HIGH</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dupilumab</strong></td>
+                                        <td class="efficacy-moderate">-6.01</td>
+                                        <td style="color: #dc2626;">NO DATA</td>
+                                        <td class="efficacy-low">-9.73</td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cyclosporine</strong></td>
+                                        <td class="efficacy-high">-10.18</td>
+                                        <td>—</td>
+                                        <td class="efficacy-low">-8.25</td>
+                                        <td><span class="certainty-low">LOW</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Low-dose omalizumab</strong></td>
+                                        <td class="efficacy-moderate">-5.25</td>
+                                        <td class="efficacy-moderate">+5.08%</td>
+                                        <td class="efficacy-moderate">-8.23</td>
+                                        <td><span class="certainty-high">HIGH</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LTRAs</strong></td>
+                                        <td class="efficacy-low">-5.04</td>
+                                        <td>Insufficient</td>
+                                        <td>—</td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 12px; font-size: 0.85rem; color: #64748b;">
+                            <strong>MID (Minimally Important Difference):</strong> UAS7 = 10 points; CU-Q2oL = 10 points
+                        </p>
+                    </div>
+                </div>
+                
+                <div id="safety-table" class="tab-content">
+                    <div class="card">
+                        <h3 class="card-title">Safety Profile Comparison</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Treatment</th>
+                                        <th>Any AE (RD)</th>
+                                        <th>Serious AE</th>
+                                        <th>Discontinuation</th>
+                                        <th>Key Concerns</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Omalizumab</strong></td>
+                                        <td>+4%</td>
+                                        <td>No difference</td>
+                                        <td>No difference</td>
+                                        <td>Injection site reactions</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Remibrutinib</strong></td>
+                                        <td>+3%</td>
+                                        <td>No difference</td>
+                                        <td>No difference</td>
+                                        <td>Limited long-term data</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dupilumab</strong></td>
+                                        <td>0%</td>
+                                        <td>No difference</td>
+                                        <td>No difference</td>
+                                        <td>Conjunctivitis, injection site</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cyclosporine</strong></td>
+                                        <td style="color: #dc2626;"><strong>+21%</strong></td>
+                                        <td>No difference</td>
+                                        <td>—</td>
+                                        <td>HTN, nephrotoxicity, infection</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dapsone</strong></td>
+                                        <td style="color: #dc2626;"><strong>+32%</strong></td>
+                                        <td>—</td>
+                                        <td>—</td>
+                                        <td>Hemolysis, methemoglobinemia</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LTRAs</strong></td>
+                                        <td>+5%</td>
+                                        <td>No difference</td>
+                                        <td>No difference</td>
+                                        <td>Neuropsychiatric (NNH 161)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="nnt-table" class="tab-content">
+                    <div class="card">
+                        <h3 class="card-title">Numbers Needed to Treat/Harm</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Treatment</th>
+                                        <th>Outcome</th>
+                                        <th>NNT or NNH</th>
+                                        <th>Certainty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="2"><strong>Systemic CS</strong></td>
+                                        <td>Response (AH-refractory)</td>
+                                        <td style="color: #16a34a;"><strong>NNT 7</strong></td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Response (AH-responsive)</td>
+                                        <td style="color: #dc2626;">NNT 45</td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Systemic CS</strong></td>
+                                        <td>Any adverse event</td>
+                                        <td style="color: #dc2626;"><strong>NNH 9</strong></td>
+                                        <td><span class="certainty-moderate">MODERATE</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LTRAs</strong></td>
+                                        <td>Neuropsychiatric AE</td>
+                                        <td style="color: #f59e0b;"><strong>NNH 161</strong></td>
+                                        <td><span class="certainty-low">LOW</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="background: #fef3c7; padding: 16px; border-radius: 8px; margin-top: 16px;">
+                            <strong style="color: #92400e;">💡 How to Use NNT/NNH in Counseling</strong>
+                            <p style="margin-top: 8px; font-size: 0.9rem; color: #78350f;">
+                                "For every 7 patients with antihistamine-refractory urticaria we treat with a short steroid course, 1 additional patient will respond. However, for every 9 patients treated, 1 additional patient will experience an adverse event."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="decision-table" class="tab-content">
+                    <div class="card">
+                        <h3 class="card-title">Clinical Decision Factors</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Choose This</th>
+                                        <th>When Patient Has...</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Omalizumab</strong></td>
+                                        <td>
+                                            • Prominent angioedema (HIGH-certainty data)<br>
+                                            • Comorbid food allergy or asthma<br>
+                                            • Need for extensive long-term safety data<br>
+                                            • First-line biologic for most patients
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Remibrutinib</strong></td>
+                                        <td>
+                                            • Needle phobia (oral administration)<br>
+                                            • Prominent angioedema (BEST for this!)<br>
+                                            • Willingness to accept less long-term data
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Dupilumab</strong></td>
+                                        <td>
+                                            • Comorbid atopic dermatitis<br>
+                                            • Comorbid CRSwNP<br>
+                                            • Type 2 inflammation profile<br>
+                                            • <strong>NOT</strong> prominent angioedema (no data)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cyclosporine</strong></td>
+                                        <td>
+                                            • Biologic failure or unavailability<br>
+                                            • Resource-limited setting<br>
+                                            • Willing to accept monitoring requirements<br>
+                                            • Short-term use planned
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- CLINICAL PEARLS SECTION -->
+            <section id="pearls" class="content-section">
+                <div class="section-header">
+                    <h2>💡 Clinical Pearls</h2>
+                    <p>High-yield facts for clinical practice and board preparation</p>
+                </div>
+                
+                <div class="pearl-list">
+                    <div class="pearl-item high-yield">
+                        <div class="pearl-category">🔥 High-Yield</div>
+                        <div class="pearl-text">Only <strong>omalizumab and remibrutinib</strong> have HIGH-certainty evidence across ALL three key outcomes (UAS7, angioedema, QoL).</div>
+                    </div>
+                    
+                    <div class="pearl-item high-yield">
+                        <div class="pearl-category">🔥 High-Yield</div>
+                        <div class="pearl-text"><strong>Dupilumab has NO angioedema data</strong> — avoid as first-line in patients with prominent angioedema despite FDA approval for CSU.</div>
+                    </div>
+                    
+                    <div class="pearl-item high-yield">
+                        <div class="pearl-category">🔥 High-Yield</div>
+                        <div class="pearl-text">LTRAs provide <strong>MD -5.04 on UAS7</strong> — this is BELOW the minimally important difference (MID) of 10. "Small, potentially patient-unimportant" benefit.</div>
+                    </div>
+                    
+                    <div class="pearl-item high-yield">
+                        <div class="pearl-category">🔥 High-Yield</div>
+                        <div class="pearl-text">Systemic corticosteroids: <strong>NNT 7</strong> in AH-refractory vs <strong>NNT 45</strong> in AH-responsive. Always ask: "Is this patient truly refractory?"</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Pathophysiology</div>
+                        <div class="pearl-text">Benralizumab (anti-IL-5) and tezepelumab (anti-TSLP) failed because urticaria is driven by the <strong>IgE-mast cell axis</strong>, not eosinophils or TSLP.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Pathophysiology</div>
+                        <div class="pearl-text">Dupilumab works because <strong>IL-4/IL-13 are critical for IgE production</strong> — it targets the upstream cause, not eosinophils.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Treatment Selection</div>
+                        <div class="pearl-text"><strong>Remibrutinib is BEST for angioedema</strong> (+15% more angioedema-free weeks vs +8.75% for omalizumab).</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Treatment Selection</div>
+                        <div class="pearl-text"><strong>~69% of omalizumab non-responders</strong> may respond to updosing (300mg Q2W or 450-600mg Q4W) — try before switching.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Safety</div>
+                        <div class="pearl-text">Cyclosporine may be <strong>most effective (MD -10.18)</strong> but also <strong>most harmful (+21% more AEs)</strong> — requires careful risk-benefit discussion.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Safety</div>
+                        <div class="pearl-text">LTRAs have <strong>FDA boxed warning</strong> for neuropsychiatric AEs (NNH 161). Must counsel every patient.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Evidence Gap</div>
+                        <div class="pearl-text"><strong>No RCT has compared LTRA + standard AH vs 4× updosed AH alone</strong> — this is the clinically relevant question we can't answer.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Emerging Therapy</div>
+                        <div class="pearl-text">Barzolvolimab (anti-KIT) showed <strong>41% complete remission sustained 7 months OFF therapy</strong> — potential disease modification via mast cell depletion.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Topical Therapy</div>
+                        <div class="pearl-text">TCS may reduce <strong>wheal size ~50%</strong> but have uncertain effect on <strong>itch</strong> — TCS poorly inhibit rapid mast cell degranulation.</div>
+                    </div>
+                    
+                    <div class="pearl-item">
+                        <div class="pearl-category">Subgroup Analysis</div>
+                        <div class="pearl-text">Network meta-analysis found <strong>NO differential treatment effects</strong> by age, CSU vs CIndU, baseline severity, or antihistamine-refractory status.</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- EVIDENCE SUMMARIES SECTION -->
+            <section id="evidence" class="content-section">
+                <div class="section-header">
+                    <h2>📚 Evidence Summaries</h2>
+                    <p>Key findings from the four AAAAI/ACAAI systematic reviews</p>
+                </div>
+                
+                <div class="evidence-card">
+                    <div class="evidence-header">
+                        <div class="evidence-title">Biologics & Immunomodulators Network Meta-Analysis</div>
+                        <div class="evidence-citation">Chu AWL et al. J Allergy Clin Immunol. 2025;156(4):1008-1023</div>
+                    </div>
+                    <div class="evidence-body">
+                        <div class="evidence-stat-row">
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">93</div>
+                                <div class="evidence-stat-label">Studies</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">11,398</div>
+                                <div class="evidence-stat-label">Participants</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">42</div>
+                                <div class="evidence-stat-label">Interventions</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">12 wks</div>
+                                <div class="evidence-stat-label">Median Duration</div>
+                            </div>
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Key Finding</div>
+                            Omalizumab 300mg Q4W and remibrutinib are the only treatments with HIGH-certainty evidence for efficacy across urticaria activity, angioedema, AND quality of life outcomes.
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Practice Implication</div>
+                            Five biologics failed for CSU (ligelizumab, benralizumab, tezepelumab, canakinumab, quilizumab), teaching us that urticaria is driven by the IgE-mast cell axis, not eosinophils or TSLP.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="evidence-card">
+                    <div class="evidence-header">
+                        <div class="evidence-title">Leukotriene Receptor Antagonists</div>
+                        <div class="evidence-citation">Rayner DG et al. J Allergy Clin Immunol. 2024;154(4):996-1007</div>
+                    </div>
+                    <div class="evidence-body">
+                        <div class="evidence-stat-row">
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">34</div>
+                                <div class="evidence-stat-label">RCTs</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">3,324</div>
+                                <div class="evidence-stat-label">Participants</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">-5.04</div>
+                                <div class="evidence-stat-label">UAS7 Improvement</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">161</div>
+                                <div class="evidence-stat-label">NNH (Neuropsych)</div>
+                            </div>
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Key Finding</div>
+                            LTRAs improve UAS7 by only MD -5.04 — below the minimally important difference of 10. Sleep quality showed NO improvement (MD 0.00).
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Critical Gap</div>
+                            No RCT compared LTRA + standard-dose antihistamine vs 4× updosed antihistamine — the clinically relevant question remains unanswered.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="evidence-card">
+                    <div class="evidence-header">
+                        <div class="evidence-title">Systemic Corticosteroids</div>
+                        <div class="evidence-citation">Chu X et al. J Allergy Clin Immunol Pract. 2024;12(7):1879-1889</div>
+                    </div>
+                    <div class="evidence-body">
+                        <div class="evidence-stat-row">
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">12</div>
+                                <div class="evidence-stat-label">RCTs</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">944</div>
+                                <div class="evidence-stat-label">Participants</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">7</div>
+                                <div class="evidence-stat-label">NNT (Refractory)</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">9</div>
+                                <div class="evidence-stat-label">NNH (Any AE)</div>
+                            </div>
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Key Finding</div>
+                            Benefit depends on population: NNT 7 in antihistamine-REFRACTORY (meaningful) vs NNT 45 in antihistamine-RESPONSIVE (marginal).
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Practice Implication</div>
+                            Reserve short-course (&lt;1 week) steroids for acute flares in antihistamine-refractory patients. Not disease-modifying.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="evidence-card">
+                    <div class="evidence-header">
+                        <div class="evidence-title">Topical Corticosteroids</div>
+                        <div class="evidence-citation">Chu AWL et al. Ann Allergy Asthma Immunol. 2024;133(4):437-444</div>
+                    </div>
+                    <div class="evidence-body">
+                        <div class="evidence-stat-row">
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">19</div>
+                                <div class="evidence-stat-label">RCTs</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">379</div>
+                                <div class="evidence-stat-label">Participants</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">~50%</div>
+                                <div class="evidence-stat-label">Wheal Reduction</div>
+                            </div>
+                            <div class="evidence-stat">
+                                <div class="evidence-stat-value">HIGH</div>
+                                <div class="evidence-stat-label">Safety Certainty</div>
+                            </div>
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Key Finding</div>
+                            TCS may reduce wheal size by ~50% (LOW certainty) but have very uncertain effect on itch (VERY LOW certainty). HIGH certainty for safety.
+                        </div>
+                        <div class="key-finding">
+                            <div class="key-finding-label">Mechanism Insight</div>
+                            The limited itch effect makes sense: TCS poorly inhibit rapid mast cell degranulation but may deplete mast cells over time.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="footer">
+        <p>Based on AAAAI/ACAAI JTFPP Systematic Reviews 2024-2025 | 158 studies | ~16,000 participants</p>
+        <p style="margin-top: 8px;">For educational purposes only. Clinical decisions should be individualized.</p>
+    </footer>
+    
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Update nav
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update content
+                const sectionId = this.getAttribute('data-section');
+                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Scroll to top on mobile
+                if (window.innerWidth <= 900) {
+                    document.querySelector('.content').scrollTop = 0;
+                }
+            });
+        });
+        
+        // Tabs within sections
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabGroup = this.closest('.content-section');
+                const tabId = this.getAttribute('data-tab');
+                
+                // Update tabs
+                tabGroup.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update content
+                tabGroup.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tabGroup.querySelector('#' + tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
